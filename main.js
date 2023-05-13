@@ -6,29 +6,46 @@ const desktopMenu = document.querySelector(".desktop-menu");
 const burgerMenu = document.querySelector(".menu");
 const mobileMenu = document.querySelector(".mobile-menu");
 const menuCarritoIcon = document.querySelector(".navbar-shopping-cart");
-const asideCarrito = document.querySelector(".product-detail");
+const asideCarrito = document.querySelector("#shoppingCartContainer");
+const productDetail = document.querySelector("#productDetail");
+const productDetailClose = document.querySelector(".product-detail-close");
 const cardsContainer = document.querySelector(".cards-container");
 
 //Interaccion para mostrar menu desplegable al hacer click
 menuEmail.addEventListener("click", toggleDesktopMenu);
 burgerMenu.addEventListener("click", toggleMobileMenu);
 menuCarritoIcon.addEventListener("click", toggleAsideCarrito);
+productDetailClose.addEventListener("click", closeDetailProduct);
 
 //Funciones para menus desplegables
 function toggleDesktopMenu() {
   asideCarrito.classList.add("inactive");
+  productDetail.classList.add("inactive");
   desktopMenu.classList.toggle("inactive");
 }
 
 function toggleMobileMenu() {
   asideCarrito.classList.add("inactive");
+  productDetail.classList.add("inactive");
   mobileMenu.classList.toggle("inactive");
 }
 
 function toggleAsideCarrito() {
   desktopMenu.classList.add("inactive"); //Ocultar el menu de usuario
   mobileMenu.classList.add("inactive"); //Ocultar el menu desplegable
+  productDetail.classList.add("inactive"); //Ocultar el detalle del producto
   asideCarrito.classList.toggle("inactive"); //Mostar y ocultar el aside
+}
+
+//Funcion para mostrar el detalle del producto
+function showDetailProduct() {
+  desktopMenu.classList.add("inactive");
+  mobileMenu.classList.add("inactive");
+  asideCarrito.classList.add("inactive");
+  productDetail.classList.remove("inactive");
+}
+function closeDetailProduct() {
+  productDetail.classList.add("inactive");
 }
 
 //Mostrar los productos
@@ -38,23 +55,25 @@ const productList = [];
 
 //Simulacion de una base de datos para agregar los productos
 
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 4; i++) {
   productList.push({
     name: "Bike",
     price: 1001 + i,
     img: "https://cdn.shopify.com/s/files/1/0541/0154/1047/products/0711964_b_1200x1200.jpg?v=1614971567",
+    detail: "Bicicleta de montaña",
   });
   productList.push({
     name: "Moto",
     price: 1002 + i,
     img: "https://fratelliglobal.com/wp-content/uploads/2021/12/Moto-Fratelli-FS-110-Semi-automatica-1.jpg",
+    detail: "Moto de pista",
   });
   productList.push({
     name: "Auto",
     price: 1003 + i,
     img: "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_05a99b23df054e0eb2c93b3885eaa13e.jpg",
+    detail: "Auto deportivo",
   });
-  [];
 }
 
 //Creacion de los elementos HTML para mostrar los productos
@@ -70,6 +89,7 @@ function renderProducts(productList) {
     //Imagen del producto
     const imgProduct = document.createElement("img");
     imgProduct.setAttribute("src", product.img);
+    imgProduct.addEventListener("click", showDetailProduct);
 
     //Contenedor de la informacion del producto
     const productInfo = document.createElement("div");
